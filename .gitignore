@@ -1,0 +1,12 @@
+# 运行时数据（群聊转录、记忆、会话指针、禁言状态、定时任务）——含真实聊天内容，不进仓库
+groups/
+media-cache/
+media-out/
+
+# 本机密钥/凭据
+byok-config.json
+
+# 依赖与日志
+node_modules/
+*.log
+turns.jsonl

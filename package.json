@@ -1,0 +1,21 @@
+{
+  "name": "qoder-fish",
+  "version": "1.0.0",
+  "description": "QQ group chat bot powered by Qoder Agent SDK (OneBot v11 / NapCat)",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@qoder-ai/qoder-agent-sdk": "^1.0.56",
+    "@qodercn-ai/qodercn-agent-sdk": "^1.0.56",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "ws": "^8.22.0"
+  }
+}

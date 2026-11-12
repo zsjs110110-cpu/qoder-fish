@@ -1,0 +1,21 @@
+import { createChatQueue } from "./chat-queue.mjs";
+
+let fail = 0;
+const ok = (n, c, x = "") => { if (!c) fail++; console.log(`${c ? "ok  " : "FAIL"} ${n}${x ? " ｜ " + x : ""}`); };
+const tick = () => new Promise((r) => setImmediate(r));
+const deferred = () => { let resolve; const p = new Promise((r) => { resolve = r; }); return { p, resolve }; };
+const order = [];
+let clock = 0;
+const q = createChatQueue({ maxWaiting: 2, staleMs: 10_000, now: () => clock });
+const a = deferred();
+const pa = q.enqueue("g", async () => { order.push("A"); await a.p; }, { chatKey: "g" });
+await tick();
+const b = q.enqueue("g", async () => { order.push("B"); }, { chatKey: "g" });
+const c = q.enqueue("g", async () => { order.push("C"); }, { chatKey: "g" });
+const d = q.enqueue("g", async () => { order.push("D"); }, { chatKey: "g", priority: true });
+ok("普通消息被优先位挤出", (await b).dropped, "queue");
+a.resolve();
+await Promise.all([pa, c, d]);
+ok("优先消息先跑", order.join(","), "A,D,C");
+console.log(fail === 0 ? "\n队列优先级全部通过" : `\n失败 ${fail} 项`);
+process.exit(fail ? 1 : 0);
